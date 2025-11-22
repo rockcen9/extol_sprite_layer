@@ -4,7 +4,7 @@ use std::fmt::Debug;
 use std::hash::Hash;
 use std::marker::PhantomData;
 
-use bevy::ecs::entity::EntityHashMap; // noticeably faster than std's
+use bevy::ecs::entity::EntityHashMap;
 use bevy::prelude::*;
 use ordered_float::OrderedFloat;
 use tap::Tap;
@@ -107,7 +107,7 @@ pub fn clear_z_coordinates(mut query: Query<&mut Transform, With<RenderZCoordina
 /// descendants.
 pub fn propagate_layers<Layer: LayerIndex>(
     recursive_query: Query<(Option<&Children>, Option<&Layer>)>,
-    root_query: Query<(Entity, &Layer), Without<Parent>>,
+    root_query: Query<(Entity, &Layer), Without<ChildOf>>,
     mut size: Local<usize>,
 ) -> EntityHashMap<Layer> {
     let mut layer_map = EntityHashMap::default();
